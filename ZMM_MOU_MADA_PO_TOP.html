@@ -1,0 +1,101 @@
+<!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZMM_MOU_MADA_PO_TOP</title>
+<meta name="GENERATOR" content="AB4Editor Control" />
+<style type="text/css">
+SPAN {
+font-family: "Courier New";
+font-size: 10pt;
+color: #000000;
+background: #FFFFFF;
+}
+.L0S31 {
+font-style: italic;
+color: #808080;
+}
+.L0S33 {
+color: #4DA619;
+}
+.L0S52 {
+color: #0000FF;
+}
+.L0S55 {
+color: #800080;
+}
+.L0S70 {
+color: #808080;
+}
+</style>
+</head>
+<body>
+<span><span class="L0S31">*&amp;---------------------------------------------------------------------*</span><br>
+<span class="L0S31">*&amp;&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZMM_MOU_MADA_PO_TOP</span><br>
+<span class="L0S31">*&amp;---------------------------------------------------------------------*</span><br>
+<span class="L0S52">TYPE-POOLS</span><span class="L0S55">:&nbsp;</span>truxs<span class="L0S55">.</span><br>
+<span class="L0S52">DATA&nbsp;</span><span class="L0S55">:&nbsp;</span>p_head&nbsp;<span class="L0S52">VALUE&nbsp;</span><span class="L0S33">'X'</span><span class="L0S55">.</span><br>
+<span class="L0S52">DATA</span><span class="L0S55">:&nbsp;</span>it_raw&nbsp;<span class="L0S52">TYPE&nbsp;</span>truxs_t_text_data<span class="L0S55">.</span><br>
+<span class="L0S52">DATA&nbsp;</span>lv_poitem&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>EBELP<span class="L0S55">.</span><br>
+<span class="L0S52">DATA&nbsp;</span>gv_items&nbsp;<span class="L0S52">TYPE&nbsp;</span>string&nbsp;<span class="L0S52">VALUE&nbsp;</span><span class="L0S33">'000000000000000'</span><span class="L0S55">.</span><br>
+<span class="L0S52">TYPES&nbsp;</span><span class="L0S55">:&nbsp;</span><span class="L0S52">BEGIN&nbsp;</span><span class="L0S52">OF&nbsp;</span>ty_data<span class="L0S55">,</span><br>
+&nbsp;&nbsp;iHeader&nbsp;<span class="L0S52">TYPE&nbsp;</span>ekpo<span class="L0S70">-</span>ebeln<span class="L0S55">,</span><br>
+&nbsp;&nbsp;nPoste&nbsp;<span class="L0S52">like&nbsp;</span>ekpo<span class="L0S70">-</span>ebelp<span class="L0S55">,</span><br>
+&nbsp;&nbsp;article&nbsp;<span class="L0S52">TYPE&nbsp;</span>MATNR18<span class="L0S55">,</span><br>
+&nbsp;&nbsp;qty&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>menge<span class="L0S55">,</span><br>
+&nbsp;&nbsp;unite&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>MEINS<span class="L0S55">,</span><br>
+&nbsp;&nbsp;<span class="L0S52">date&nbsp;</span><span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>AEDAT<span class="L0S55">,</span><br>
+&nbsp;&nbsp;price&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>NETPR<span class="L0S55">,</span><br>
+&nbsp;&nbsp;devise&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekko<span class="L0S70">-</span>WAERS<span class="L0S55">,</span><br>
+&nbsp;&nbsp;societe&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>BUKRS<span class="L0S55">,</span><br>
+&nbsp;&nbsp;division&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>WERKS<span class="L0S55">,</span><br>
+&nbsp;&nbsp;magasin&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>LGORT<span class="L0S55">,</span><br>
+&nbsp;&nbsp;<span class="L0S52">END&nbsp;</span><span class="L0S52">OF&nbsp;</span>ty_data<span class="L0S55">.</span><br>
+<span class="L0S52">DATA&nbsp;</span><span class="L0S55">:&nbsp;</span>gt_data&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">table&nbsp;</span><span class="L0S52">of&nbsp;</span>ty_data<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_data&nbsp;<span class="L0S52">TYPE&nbsp;</span>ty_data<span class="L0S55">.</span><br>
+<br>
+<span class="L0S31">&quot;data&nbsp;for&nbsp;bapi&nbsp;po&nbsp;start&nbsp;here</span><br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>pohead&nbsp;&nbsp;<span class="L0S52">type&nbsp;</span>bapimepoheader<span class="L0S55">.</span><br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>poheadx&nbsp;<span class="L0S52">type&nbsp;</span>bapimepoheaderx<span class="L0S55">.</span><br>
+<br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>exp_head&nbsp;<span class="L0S52">type&nbsp;</span>bapimepoheader<span class="L0S55">.</span><br>
+<br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span><span class="L0S52">return&nbsp;&nbsp;</span><span class="L0S52">type&nbsp;</span><span class="L0S52">table&nbsp;</span><span class="L0S52">of&nbsp;</span>bapiret2&nbsp;<span class="L0S52">with&nbsp;</span><span class="L0S52">header&nbsp;</span><span class="L0S52">line</span><span class="L0S55">.</span><br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>poitem&nbsp;&nbsp;<span class="L0S52">type&nbsp;</span><span class="L0S52">table&nbsp;</span><span class="L0S52">of&nbsp;</span>bapimepoitem&nbsp;<span class="L0S52">with&nbsp;</span><span class="L0S52">header&nbsp;</span><span class="L0S52">line</span><span class="L0S55">.</span><br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>poitemx&nbsp;<span class="L0S52">type&nbsp;</span><span class="L0S52">table&nbsp;</span><span class="L0S52">of&nbsp;</span>bapimepoitemx&nbsp;<span class="L0S52">with&nbsp;</span><span class="L0S52">header&nbsp;</span><span class="L0S52">line</span><span class="L0S55">.</span><br>
+<br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>posched&nbsp;&nbsp;<span class="L0S52">type&nbsp;</span><span class="L0S52">table&nbsp;</span><span class="L0S52">of&nbsp;</span>bapimeposchedule&nbsp;<span class="L0S52">with&nbsp;</span><span class="L0S52">header&nbsp;</span><span class="L0S52">line</span><span class="L0S55">.</span><br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>poschedx&nbsp;<span class="L0S52">type&nbsp;</span><span class="L0S52">table&nbsp;</span><span class="L0S52">of&nbsp;</span>bapimeposchedulx&nbsp;<span class="L0S52">with&nbsp;</span><span class="L0S52">header&nbsp;</span><span class="L0S52">line</span><span class="L0S55">.</span><br>
+<br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>ex_po_number&nbsp;<span class="L0S52">type&nbsp;</span>bapimepoheader<span class="L0S70">-</span>po_number<span class="L0S55">.</span><br>
+<span class="L0S31">&quot;data&nbsp;for&nbsp;bapi&nbsp;po&nbsp;end</span><br>
+<span class="L0S52">data</span><span class="L0S55">:&nbsp;</span>del_date&nbsp;<span class="L0S52">type&nbsp;</span>sy<span class="L0S70">-</span>datum<span class="L0S55">.</span><br>
+<br>
+<span class="L0S31">&quot;alv&nbsp;data&nbsp;begin.</span><br>
+<span class="L0S52">TYPES&nbsp;</span><span class="L0S55">:&nbsp;</span><span class="L0S52">BEGIN&nbsp;</span><span class="L0S52">OF&nbsp;</span>ty_alv<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;nCommande&nbsp;<span class="L0S52">TYPE&nbsp;</span>ekko<span class="L0S70">-</span>EBELN<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;nPoste&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>EBELP<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;qty&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>menge<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;unite&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>MEINS<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;prixT&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekpo<span class="L0S70">-</span>NETPR<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;devise&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekko<span class="L0S70">-</span>WAERS<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;Four&nbsp;<span class="L0S52">LIKE&nbsp;</span>ekko<span class="L0S70">-</span>lifnr<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;status&nbsp;<span class="L0S52">TYPE&nbsp;</span>char30<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;protocole&nbsp;<span class="L0S52">TYPE&nbsp;</span>char30<span class="L0S55">,</span><br>
+&nbsp;&nbsp;<span class="L0S52">END&nbsp;</span><span class="L0S52">OF&nbsp;</span>ty_alv<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA&nbsp;</span><span class="L0S55">:&nbsp;</span>gt_alv&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">TABLE&nbsp;</span><span class="L0S52">OF&nbsp;</span>ty_alv<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_alv&nbsp;<span class="L0S52">TYPE&nbsp;</span>ty_alv<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA</span><span class="L0S55">:&nbsp;</span>lr_columns&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_columns_table<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lr_column&nbsp;&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_column<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA</span><span class="L0S55">:&nbsp;</span>alv_table&nbsp;&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_table<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA</span><span class="L0S55">:&nbsp;</span>alv_columns&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_columns_table<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA</span><span class="L0S55">:&nbsp;</span>alv_column&nbsp;&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_column_table<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA</span><span class="L0S55">:&nbsp;</span>go_function&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_functions_list<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA</span><span class="L0S55">:&nbsp;</span>lr_alv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_table<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA&nbsp;</span><span class="L0S55">:&nbsp;</span>o_events&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">REF&nbsp;</span><span class="L0S52">TO&nbsp;</span>cl_salv_events_table<span class="L0S55">.</span><br>
+<span class="L0S31">&quot;alv&nbsp;&nbsp;data&nbsp;end</span><br>
+&nbsp;&nbsp;<span class="L0S52">TYPES&nbsp;</span><span class="L0S55">:&nbsp;</span><span class="L0S52">BEGIN&nbsp;</span><span class="L0S52">OF&nbsp;</span>ty_msg<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;<span class="L0S52">TYPE&nbsp;</span>char220<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="L0S52">END&nbsp;</span><span class="L0S52">OF&nbsp;</span>ty_msg<span class="L0S55">.</span><br>
+&nbsp;&nbsp;<span class="L0S52">DATA&nbsp;</span><span class="L0S55">:&nbsp;</span>it_msg&nbsp;<span class="L0S52">TYPE&nbsp;</span><span class="L0S52">TABLE&nbsp;</span><span class="L0S52">of&nbsp;</span>ty_msg<span class="L0S55">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_msg&nbsp;<span class="L0S52">TYPE&nbsp;</span>ty_msg<span class="L0S55">.</span></span>
+</body>
